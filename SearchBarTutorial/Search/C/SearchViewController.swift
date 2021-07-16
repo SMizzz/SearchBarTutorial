@@ -10,24 +10,22 @@ import UIKit
 class SearchViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
+  private let cellId = "cell"
   
-  var dessertData = [
-    Dessert(
-      image: "candy",
-      dessertName: "Candy"),
-    Dessert(
-      image: "donut",
-      dessertName: "Donut"),
-    Dessert(
-      image: "cake",
-      dessertName: "Cake"),
-    Dessert(
-      image: "chocolate",
-      dessertName: "Chocolate"),
-    Dessert(
-      image: "icecream",
-      dessertName: "Ice Cream")
-  ]
+  var imageData: [String] = [
+    "candy",
+    "donut",
+    "chocolate",
+    "cake",
+    "icecream"]
+  
+  var labelData: [String] = [
+    "Candy",
+    "Donut",
+    "Chocolate",
+    "Cake",
+    "IceCream"]
+
   
   
   override func viewDidLoad() {
@@ -36,26 +34,25 @@ class SearchViewController: UIViewController {
   }
   
   private func configureTableView() {
-     tableView.dataSource = self
-     tableView.delegate = self
-     tableView.register(
-       DessertCell.self,
-       forCellReuseIdentifier: "DessertListCell")
-   }
+    tableView.dataSource = self
+    tableView.delegate = self
+  }
 }
 
 extension SearchViewController:
   UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dessertData.count
+    return imageData.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "DessertListCell", for: indexPath) as!
-      DessertCell
-    print(dessertData[indexPath.row].image)
-    cell.dessertImageView.image = UIImage(named: dessertData[indexPath.row].image)
-    cell.dessertLabel.text = dessertData[indexPath.row].dessertName
+    let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomCell
+    cell.thumbImageView.image = UIImage(named: imageData[indexPath.row])
+    cell.titleLabel.text = labelData[indexPath.row]
     return cell
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 130.0
   }
 }
